@@ -42,10 +42,10 @@ function updateLocalStorage() {
 }
 
 function updateList() {
-  // her opdateres listen
   taskList.innerHTML = "";
   model.forEach((each, i) => {
-    taskList.innerHTML += `<li class="clickTask" data-id="${i}">${each}</li> `;
+    taskList.innerHTML += `<input type="checkbox" class="clickTask" data-id="${i}"> 
+    <label for="${i}">${each}</label>`;
   });
 
   document.querySelectorAll(".clickTask").forEach((each) => {
