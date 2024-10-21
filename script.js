@@ -4,12 +4,13 @@ const taskList = document.querySelector("#taskList");
 
 const taskListFromLS = localStorage.getItem("taskList");
 
-let model;
+let toDoModel;
+let doneModel;
 
 if (taskListFromLS === null) {
-  model = ["Task 1", "Task 2", "Task 3"];
+  toDoModel = ["Task 1", "Task 2", "Task 3"];
 } else {
-  model = JSON.parse(taskListFromLS);
+  toDoModel = JSON.parse(taskListFromLS);
 }
 
 init();
@@ -26,26 +27,26 @@ function buttonClicked() {
 
 function addTaskToList(task) {
   console.log(task);
-  model.push(task);
+  toDoModel.push(task);
   updateLocalStorage();
 }
 
 function removeTaskFromList(id) {
-  model.splice(id, 1);
+  toDoModel.splice(id, 1);
   updateLocalStorage();
 }
 
 function updateLocalStorage() {
   const inputFelt = document.querySelector("input");
-  console.log("updateLocalStorage", model);
-  localStorage.setItem("taskList", JSON.stringify(model));
+  console.log("updateLocalStorage", toDoModel);
+  localStorage.setItem("taskList", JSON.stringify(toDoModel));
 }
 
 function updateList() {
   taskList.innerHTML = "";
-  model.forEach((each, i) => {
-    taskList.innerHTML += `<input type="checkbox" class="clickTask" data-id="${i}"> 
-    <label for="${i}">${each}</label>`;
+  toDoModel.forEach((each, i) => {
+    taskList.innerHTML += `<div><input type="checkbox" class="clickTask" data-id="${i}"> 
+    <label for="${i}">${each}</label></div>`;
   });
 
   document.querySelectorAll(".clickTask").forEach((each) => {
