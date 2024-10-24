@@ -9,14 +9,24 @@
   <body>
     <header></header>
     <main>
-      <h1>To Do</h1>
+      <h1>To Do - list</h1>
       <div class="list_container">
-        <label for="task">Add task:</label>
-        <input type="text" id="task" name="task" />
-        <button>submit</button>
-        <form id="favoritesList"></form>
-        <form id="taskList"></form>
-        <form id="doneTaskList"></form>
+        <div class="sumbmit_flex">
+          <label for="task">Add task:</label>
+          <input type="text" id="task" name="task" />
+          <button>submit</button>
+        </div>
+        <!-- <form id="favoritesList"></form> -->
+        <div class="task_grid">
+          <div>
+            <h2>To Do:</h2>
+            <form id="taskList"></form>
+          </div>
+          <div>
+            <h2>Done:</h2>
+            <form id="doneTaskList"></form>
+          </div>
+        </div>
       </div>
     </main>
     <footer></footer>

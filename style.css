@@ -1,6 +1,22 @@
-h2 {
+body {
+  background-color: aliceblue;
+}
+main {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0;
+  height: 100svh;
+}
+h2,
+h1 {
+  color: navy;
+}
+
+#taskList,
+#doneTaskList {
+  margin: 10px 0;
 }
 
 .hide {
@@ -8,6 +24,10 @@ h2 {
 }
 
 #doneTaskList {
+  > * {
+    padding: 3px 10px;
+    background-color: rgb(229, 179, 179);
+  }
   .clickTask {
     text-decoration: line-through;
   }
@@ -16,22 +36,40 @@ h2 {
 #taskList {
   display: flex;
   flex-direction: column;
+  > * {
+    padding: 3px 10px;
+
+    background-color: rgb(187, 219, 246);
+  }
 }
 
 .flex {
   display: flex;
   justify-content: space-between;
 }
+.sumbmit_flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-end;
+}
 .list_container {
-  width: 13rem;
+  width: 18rem;
 }
 
 .trash:hover,
-.star:hover {
+.star:hover,
+button:hover {
   cursor: pointer;
 }
 
 .star {
   width: 1rem;
   height: 1rem;
+}
+
+.task_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
