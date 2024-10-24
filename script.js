@@ -1,39 +1,23 @@
 const submitButton = document.querySelector("button");
 const taskInput = document.querySelector("#task");
 
-const taskList = document.querySelector("#taskList");
-const doneTaskList = document.querySelector("#doneTaskList");
-// const favoritesList = document.querySelector("#favoritesList");
+const taskList = document.querySelector("#taskList"); //To Do - listen i HTML
+const doneTaskList = document.querySelector("#doneTaskList"); //Done - listen i HTML
 
-const taskListFromLS = localStorage.getItem("taskList");
-const doneTaskListFromLS = localStorage.getItem("doneTaskList");
-// const favoritesListfromLS = localStorage.getItem("favoritesList");
+const taskListFromLS = localStorage.getItem("taskList"); //To Do - listen i localStorage
+const doneTaskListFromLS = localStorage.getItem("doneTaskList"); //Done - listen i localStorage
 
-let toDoModel;
-let doneModel;
-// let favoriteModel;
+let toDoModel; //To Do - model
+let doneModel; //Done - model
 
-if (taskListFromLS === null) {
-  toDoModel = ["Isert your first task"];
-} else {
-  toDoModel = JSON.parse(taskListFromLS);
-}
-if (doneTaskListFromLS === null) {
-  doneModel = [];
-} else {
-  doneModel = JSON.parse(doneTaskListFromLS);
-}
-// if (favoritesListfromLS === null) {
-//   favoriteModel = [];
-// } else {
-//   favoriteModel = JSON.parse(favoritesListfromLS);
-// }
+// udfyld modellerne med array fra localStorage
+toDoModel = JSON.parse(taskListFromLS);
+doneModel = JSON.parse(doneTaskListFromLS);
 
 init();
 
 function init() {
   submitButton.addEventListener("click", buttonClicked);
-
   updateList();
 }
 
@@ -81,66 +65,66 @@ function removeTaskFromDone(id) {
 // }
 
 function updateLocalStorage() {
-  const inputFelt = document.querySelector("input");
-  console.log("toDoModel:", toDoModel);
-  console.log("doneModel:", doneModel);
-  // console.log("favoriteModel:", favoriteModel);
   localStorage.setItem("taskList", JSON.stringify(toDoModel));
   localStorage.setItem("doneTaskList", JSON.stringify(doneModel));
-  // localStorage.setItem("favoritesList", JSON.stringify(favoriteModel));
 }
 
 function updateList() {
   taskList.innerHTML = "";
   doneTaskList.innerHTML = "";
-  // favoritesList.innerHTML = "";
 
   toDoModel.forEach((each, i) => {
-    taskList.innerHTML += `<div class="flex"><div class="clickTask"><input data-filter="toDo" type="checkbox" data-id="${i}"> 
-    <label for="${i}" class="submittedTask">${each}</label></div><div class="flex"><div class="trash" data-filter="toDo" id="${i}">🗑</div></div></div>`;
+    taskList.innerHTML += `<div class="flex">
+        <div class="clickTask">
+          <input data-filter="toDo" type="checkbox" data-id="${i}" />
+          <label for="${i}" class="submittedTask">${each}</label>
+        </div>
+        <div class="flex">
+          <div class="trash" data-filter="toDo" id="${i}">🗑</div>
+        </div>
+      </div>`;
   });
 
   doneModel.forEach((each, i) => {
-    doneTaskList.innerHTML += `<div class="flex"><div class="clickTask"><input data-filter="done" type="checkbox" data-id="${i}">
-          <label for="${i}" class="submittedTask">${each}</label></div><div class="flex"><div class="trash" data-filter="done" id="${i}">🗑</div></div></div>`;
+    doneTaskList.innerHTML += `<div class="flex">
+        <div class="clickTask">
+          <input data-filter="done" type="checkbox" data-id="${i}" />
+          <label for="${i}" class="submittedTask">${each}</label>
+        </div>
+        <div class="flex">
+        <div class="trash" data-filter="done" id="${i}">🗑</div>
+        </div>
+      </div>`;
   });
-  // favoriteModel.forEach((each, i) => {
-  //   doneTaskList.innerHTML += `<div class="flex"><div class="clickTask"><input data-filter="done" type="checkbox" data-id="${i}">
-  //         <label for="${i} class="submittedTask"">${each}</label></div><div class="flex"><div class="trash" id="${i}">🗑</div><p class="star" data-filter="true">★</p></div></div>`;
-  // });
 
   document.querySelectorAll(".clickTask").forEach((each) => {
     each.addEventListener("click", clickTask);
   });
-  // document.querySelectorAll(".star").forEach((each) => {
-  //   each.addEventListener("click", clickStar);
-  // });
   document.querySelectorAll(".trash").forEach((each) => {
     each.addEventListener("click", clickTrash);
   });
 }
 
 function clickTask(evt) {
-  const action = evt.target.dataset.filter; // konstant for den trykkede button's (evt target's) datafilter
-  let text = evt.currentTarget.querySelector("label").textContent;
-  let checkBox = evt.currentTarget.querySelector("input");
-
-  console.log("text", text);
+  const action = evt.target.dataset.filter; // konstant for den taskens datafilter
+  let text = evt.currentTarget.querySelector("label").textContent; // variabel for tekstindholdet af den trykkede task
+  let checkBox = evt.currentTarget.querySelector("input"); //variabel for checkboxen
 
   if (action === "toDo") {
-    removeTaskFromList(evt.target.dataset.id);
-    addTaskToDone(text);
-    checkBox.checked = 0;
-    console.log("checkBox.checked", checkBox.checked);
+    //hvis task er i toDo list
+    removeTaskFromList(evt.target.dataset.id); //så fjern tasken med tilsvarende id fra todo-listen,
+    addTaskToDone(text); //tilføj task med tilsvarende tekstindhold til done-listen,
+    checkBox.checked = true; //og sæt checkbox's værdi til checked
   } else if (action === "done") {
-    addTaskToList(text);
-    removeTaskFromDone(evt.target.dataset.id);
-    checkBox.checked = 1;
-    console.log("checkBox.checked", checkBox.checked);
+    //ellers, (hvis task er i done list)
+    addTaskToList(text); //tilføj task med tilsvarende tekstindhold til todo-list,
+    removeTaskFromDone(evt.target.dataset.id); //fjern task med tilsvarende id fra done-listen,
+    checkBox.checked = false; //og sæt checkbox's værdi til unchecked
   }
 
-  updateList();
+  updateList(); //opdater listerne derefter
 }
+
 // function clickStar(evt) {
 //   let filter = evt.target.dataset.filter; // konstant for den trykkede button's (evt target's) datafilter
 //   let starColor = evt.currentTarget.textContent;
@@ -178,17 +162,11 @@ function clickTask(evt) {
 
 function clickTrash(evt) {
   const action = evt.currentTarget.dataset.filter;
-  console.log(action);
-  console.log("index", evt.target.id);
 
   if (action === "toDo") {
     removeTaskFromList(evt.target.id);
   } else if (action === "done") {
     removeTaskFromDone(evt.target.id);
   }
-
-  // removeTaskFromList(evt.target.id);
-  // removeTaskFromDone(evt.target.id);
-  // removeTaskFromFavoritesList(evt.target.id);
   updateList();
 }
