@@ -1,13 +1,17 @@
 const submitButton = document.querySelector("button");
 const taskInput = document.querySelector("#task");
+
+const favoritesList = document.querySelector("#favoritesList");
 const taskList = document.querySelector("#taskList");
 const doneTaskList = document.querySelector("#doneTaskList");
 
 const taskListFromLS = localStorage.getItem("taskList");
 const doneTaskListFromLS = localStorage.getItem("doneTaskList");
+const favoritesListfromLS = localStorage.getItem("favoritesList");
 
 let toDoModel;
 let doneModel;
+let favoriteModel;
 
 if (taskListFromLS === null) {
   toDoModel = ["Isert your first task"];
@@ -18,6 +22,11 @@ if (doneTaskListFromLS === null) {
   doneModel = [];
 } else {
   doneModel = JSON.parse(doneTaskListFromLS);
+}
+if (favoritesListfromLS === null) {
+  favoriteModel = [];
+} else {
+  favoriteModel = JSON.parse(favoritesListfromLS);
 }
 
 init();
@@ -55,6 +64,9 @@ function removeTaskFromDone(id) {
   updateLocalStorage();
 }
 
+function addTaskToFavoritesList() {}
+function removeTaskFromFavoritesList() {}
+
 function updateLocalStorage() {
   const inputFelt = document.querySelector("input");
   console.log("toDoModel:", toDoModel);
@@ -74,15 +86,15 @@ function updateList() {
 
   doneModel.forEach((each, i) => {
     doneTaskList.innerHTML += `<div class="flex"><div class="clickTask"><input data-filter="done" type="checkbox" data-id="${i}">
-          <label for="${i}">${each}</label></div><div class="flex"><div class="trash" id="${i}">🗑</div><p class="star" data-filter="true">☆</p></div></div>`;
+          <label for="${i}">${each}</label></div><div class="flex"><div class="trash" id="${i}">🗑</div><p class="star" data-filter="true">★</p></div></div>`;
   });
 
   document.querySelectorAll(".clickTask").forEach((each) => {
     each.addEventListener("click", clickTask);
   });
-  // document.querySelectorAll(".star").forEach((each) => {
-  //   each.addEventListener("click", clickStar);
-  // });
+  document.querySelectorAll(".star").forEach((each) => {
+    each.addEventListener("click", clickStar);
+  });
   document.querySelectorAll(".trash").forEach((each) => {
     each.addEventListener("click", clickTrash);
   });
@@ -105,27 +117,36 @@ function clickTask(evt) {
   updateList();
 }
 
+// function clickStar(evt) {
+
+//   let starFilter = evt.target.dataset.filter;
+//   console.log("star is: ", starFilter);
+//   let starColor = evt.target.textcontent;
+//   console.log(starColor);
+// }
+
 function clickStar(evt) {
+  if (evt.target.dataset.filter === false) {
+    evt.currentTarget.querySelector("p").textContent = "☆hej";
+    console.log("now star is", evt.currentTarget.textContent);
+  } else {
+    evt.currentTarget.querySelector("p").textContent = "★";
+    console.log("now star is", evt.currentTarget.textContent);
+  }
+
   let star = evt.target.dataset.filter; // konstant for den trykkede button's (evt target's) datafilter
   let text = evt.currentTarget.textContent;
   console.log("textContent is", text);
   console.log("first check star is", star);
 
-  if (evt.target.dataset.filter === "false") {
+  if (evt.target.dataset.filter === false) {
     console.log("change star to true");
-    evt.target.dataset.filter = "true";
-  } else if (evt.target.dataset.filter === "true") {
+    evt.target.dataset.filter = true;
+  } else if (evt.target.dataset.filter === true) {
     console.log("change star to false");
-    evt.target.dataset.filter = "false";
+    evt.target.dataset.filter = false;
   }
 
-  if (evt.target.dataset.filter === "false") {
-    console.log("filter says its false");
-    evt.currentTarget.textContent = "☆";
-  } else {
-    console.log("filter says its true");
-    evt.currentTarget.textContent = "★";
-  }
   updateList();
 
   // if (star === "false") {
