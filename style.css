@@ -8,6 +8,7 @@ h2 {
 }
 
 #doneTaskList {
+  text-decoration: line-through;
   color: red;
 }
 
