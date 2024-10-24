@@ -43,8 +43,12 @@ function buttonClicked() {
 }
 
 function addTaskToList(task) {
-  toDoModel.push(task);
-  taskInput.value = "";
+  if (task) {
+    toDoModel.push(task);
+    taskInput.value = "";
+  } else {
+    alert("Please enter a task");
+  }
 
   updateLocalStorage();
 }
@@ -119,16 +123,20 @@ function updateList() {
 function clickTask(evt) {
   const action = evt.target.dataset.filter; // konstant for den trykkede button's (evt target's) datafilter
   let text = evt.currentTarget.querySelector("label").textContent;
-  let checkBox = (evt.currentTarget.querySelector("input").checked = true);
+  let checkBox = evt.currentTarget.querySelector("input");
 
   console.log("text", text);
 
   if (action === "toDo") {
     removeTaskFromList(evt.target.dataset.id);
     addTaskToDone(text);
+    checkBox.checked = 0;
+    console.log("checkBox.checked", checkBox.checked);
   } else if (action === "done") {
     addTaskToList(text);
     removeTaskFromDone(evt.target.dataset.id);
+    checkBox.checked = 1;
+    console.log("checkBox.checked", checkBox.checked);
   }
 
   updateList();
