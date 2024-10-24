@@ -8,11 +8,25 @@ h2 {
 }
 
 #doneTaskList {
-  text-decoration: line-through;
-  color: red;
+  .clickTask {
+    text-decoration: line-through;
+  }
 }
 
 #taskList {
   display: flex;
   flex-direction: column;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+.list_container {
+  width: 13rem;
+}
+
+.trash:hover,
+.star:hover {
+  cursor: pointer;
 }
